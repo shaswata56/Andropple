@@ -15,7 +15,7 @@ struct score
 };
 
 
-void play()
+int play()
 {
     RenderWindow app(VideoMode(1100,720),"Andropple!");
     srand(time(0));
@@ -28,6 +28,21 @@ void play()
     tile.loadFromFile("res/tile.gif");
 
     Sprite sGame(game), sAppler(apple_red), sAndroid(android), sTop(top), st1(tile),st2(tile),st3(tile),st4(tile),st5(tile),st6(tile),st7(tile),st8(tile),st9(tile),st10(tile),st11(tile);
+
+    pt apple[20];
+    int life=5;
+    score scr;
+    scr.s=0;
+
+
+
+    Text text;
+    Font font;
+    font.loadFromFile("res/tscope.ttf");
+    text.setFont(font);
+    text.setCharacterSize(50);
+    text.setColor(Color::Black);
+    text.setStyle(Text::Bold);
 
     sGame.setPosition(0,0);
     st1.setPosition(0,620);
@@ -42,10 +57,7 @@ void play()
     st10.setPosition(900,620);
     st11.setPosition(1000,620);
 
-    pt apple[20];
-    //int life=5;
-    score scr;
-    scr.s=0;
+
 
     for(int i=0;i<5;i++)
     {
@@ -65,8 +77,6 @@ void play()
                 app.close();
         }
 
-    //if(Keyboard::isKeyPressed(Keyboard::Right))x+=10;
-    //if(Keyboard::isKeyPressed(Keyboard::Left)) x-=10;
     if(x>0 && x<=100)
     {
         if(t2 && Keyboard::isKeyPressed(Keyboard::Right)) x+=10;
@@ -139,6 +149,7 @@ void play()
         apple[i].y = apple[i].y + dy;
         if (apple[i].y>720)
         {
+        life--;
             apple[i].y=0;
             apple[i].x=rand()%1050;
         }
@@ -167,79 +178,85 @@ void play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t1=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st2.getGlobalBounds()) && (t2))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t2=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st3.getGlobalBounds()) && (t3))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t3=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st4.getGlobalBounds()) && (t4))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t4=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st5.getGlobalBounds()) && (t5))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t5=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st6.getGlobalBounds()) && (t6))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t6=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st7.getGlobalBounds()) && (t7))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t7=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st8.getGlobalBounds()) && (t8))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t8=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st9.getGlobalBounds()) && (t9))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t9=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st10.getGlobalBounds()) && (t10))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t10=0;
-            scr.s--;
+            life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st11.getGlobalBounds()) && (t11))
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t11=0;
-            scr.s--;
+            life--;
         }
     }
+
+    string point = " Points:", score_str = to_string(scr.s), lyf="\n Life:", lyf_str = to_string(life);
+    point.append(score_str);
+    lyf.append(lyf_str);
+    point.append(lyf);
+    text.setString(point);
 
     sAndroid.setPosition(x,y);
     sAndroid.setScale(.5,.5);
@@ -268,10 +285,11 @@ void play()
     if(t11) app.draw(st11);
 
     app.draw(sAndroid);
-
+    app.draw(text);
     app.display();
-    cout<<scr.s<<endl;
+
+    if(life < 0) return 1;
     }
     app.close();
-
+    return 0;
 }
