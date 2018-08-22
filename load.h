@@ -11,15 +11,17 @@ int start_game()
     RenderWindow frame(VideoMode(1100,720),"Andropple!");
     srand(time(0));
 
-    Texture menu, apple_r, new_game;
+    Texture menu, apple_r, new_game, objective, obj;
     menu.loadFromFile("res/menu_bg.gif");
     apple_r.loadFromFile("res/appler.png");
     new_game.loadFromFile("res/new.png");
+    objective.loadFromFile("res/obj.png");
 
-    Sprite sMenu(menu), sAppler(apple_r), sNew(new_game);
+    Sprite sMenu(menu), sAppler(apple_r), sNew(new_game), sObj(objective);
 
     sMenu.setPosition(0,0);
     sNew.setPosition(350,100);
+    sObj.setPosition(350,250);
 
     point apple[20];
 
@@ -43,9 +45,13 @@ int start_game()
             auto dot = Mouse::getPosition(frame);
             if((dot.x >= 350) && (dot.x <= 760) && (dot.y >= 100) && (dot.y <= 200))
             {
-                sNew.setColor(Color::Red);
                 return 1;
             }
+            if((dot.x >= 350) && (dot.x <= 760) && (dot.y >= 250) && (dot.y <= 360))
+            {
+                return 2;
+            }
+
         }
 
         for (int i=0;i<20;i++)
@@ -68,9 +74,36 @@ int start_game()
             frame.draw(sAppler);
         }
         frame.draw(sNew);
+        frame.draw(sObj);
         frame.display();
 
     }
     frame.close();
     return 0;
+}
+
+int show_obj()
+{
+    RenderWindow frame(VideoMode(1100,720),"Andropple!");
+    frame.setFramerateLimit(10);
+    Texture texture;
+    texture.loadFromFile("res/objectives.gif");
+    Sprite sprite(texture);
+    sprite.setPosition(150,100);
+
+    while(frame.isOpen())
+    {
+        Event e;
+        while(frame.pollEvent(e))
+        {
+            if(e.type == Event::Closed)
+                frame.close();
+        }
+        if(Keyboard::isKeyPressed(Keyboard::Escape)) return 1;
+        frame.clear();
+        frame.draw(sprite);
+        frame.display();
     }
+    frame.close();
+    return 0;
+}
