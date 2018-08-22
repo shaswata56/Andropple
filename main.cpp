@@ -5,9 +5,16 @@
 
 int main()
 {
-    if(start_game())
+    int x=start_game();
+    if(x==1)
     {
-        play();
+        int y = play();
+        if(y) main();
+    }
+    if(x==2)
+    {
+        int y = show_obj();
+        if(y) main();
     }
     return 0;
 }
