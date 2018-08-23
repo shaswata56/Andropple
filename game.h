@@ -20,6 +20,15 @@ int play()
     RenderWindow app(VideoMode(1100,720),"Andropple!");
     srand(time(0));
 
+    SoundBuffer buffer, brkbuff, ripbuff;
+    buffer.loadFromFile("res/crunch.ogg");
+    brkbuff.loadFromFile("res/break.wav");
+    ripbuff.loadFromFile("res/repair.wav");
+    Sound sound, brk, repair;
+    sound.setBuffer(buffer);
+    brk.setBuffer(brkbuff);
+    repair.setBuffer(ripbuff);
+
     Texture game, apple_red, new_game, android, top, tile;
     game.loadFromFile("res/game_bg.png");
     apple_red.loadFromFile("res/appler.png");
@@ -41,7 +50,7 @@ int play()
     font.loadFromFile("res/tscope.ttf");
     text.setFont(font);
     text.setCharacterSize(50);
-    text.setColor(Color::Black);
+    text.setFillColor(Color::Black);
     text.setStyle(Text::Bold);
 
     sGame.setPosition(0,0);
@@ -61,8 +70,8 @@ int play()
 
     for(int i=0;i<5;i++)
     {
-        apple[i].x=rand()%1000;
-        apple[i].y=rand()%720;
+        apple[i].x=rand()%1050;
+        apple[i].y=i;
     }
 
     int x=105,y=492,t1=1,t2=1,t3=1,t4=1,t5=1,t6=1,t7=1,t8=1,t9=1,t10=1,t11=1;
@@ -76,6 +85,12 @@ int play()
             if(e.type == Event::Closed)
                 app.close();
         }
+
+    if(scr.s%50 == 0)
+    {
+        repair.play();
+        t1=1,t2=1,t3=1,t4=1,t5=1,t6=1,t7=1,t8=1,t9=1,t10=1,t11=1;
+    }
 
     if(x>0 && x<=100)
     {
@@ -149,7 +164,7 @@ int play()
         apple[i].y = apple[i].y + dy;
         if (apple[i].y>720)
         {
-        life--;
+            life--;
             apple[i].y=0;
             apple[i].x=rand()%1050;
         }
@@ -171,6 +186,7 @@ int play()
         {
             apple[i].y=0;
             apple[i].x=rand()%1050;
+            sound.play();
             scr.s++;
         }
         else if(sAppler.getGlobalBounds().intersects(st1.getGlobalBounds()) && (t1))
@@ -178,6 +194,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t1=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st2.getGlobalBounds()) && (t2))
@@ -185,6 +202,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t2=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st3.getGlobalBounds()) && (t3))
@@ -192,6 +210,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t3=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st4.getGlobalBounds()) && (t4))
@@ -199,6 +218,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t4=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st5.getGlobalBounds()) && (t5))
@@ -206,6 +226,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t5=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st6.getGlobalBounds()) && (t6))
@@ -213,6 +234,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t6=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st7.getGlobalBounds()) && (t7))
@@ -220,6 +242,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t7=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st8.getGlobalBounds()) && (t8))
@@ -227,6 +250,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t8=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st9.getGlobalBounds()) && (t9))
@@ -234,6 +258,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t9=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st10.getGlobalBounds()) && (t10))
@@ -241,6 +266,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t10=0;
+            brk.play();
             life--;
         }
         else if(sAppler.getGlobalBounds().intersects(st11.getGlobalBounds()) && (t11))
@@ -248,6 +274,7 @@ int play()
             apple[i].y=0;
             apple[i].x=rand()%1050;
             t11=0;
+            brk.play();
             life--;
         }
     }
@@ -288,7 +315,11 @@ int play()
     app.draw(text);
     app.display();
 
-    if(life < 0) return 1;
+    if(life < 0)
+    {
+        return 1;
+    }
+
     }
     app.close();
     return 0;
