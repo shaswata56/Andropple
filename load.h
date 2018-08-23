@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 using namespace sf;
 
 struct point
@@ -10,6 +11,12 @@ int start_game()
 {
     RenderWindow frame(VideoMode(1100,720),"Andropple!");
     srand(time(0));
+
+    SoundBuffer buffer;
+    buffer.loadFromFile("res/load.wav");
+    Sound sound;
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
 
     Texture menu, apple_r, new_game, objective, obj;
     menu.loadFromFile("res/menu_bg.gif");
@@ -24,6 +31,7 @@ int start_game()
     sObj.setPosition(350,250);
 
     point apple[20];
+    int frm=0;
 
     for(int i=0;i<20;i++)
     {
@@ -39,6 +47,9 @@ int start_game()
             if(e.type == Event::Closed)
                 frame.close();
         }
+
+        frm++;
+        if(frm==2) sound.play();
 
         if(Mouse::isButtonPressed(sf::Mouse::Left))
         {
@@ -99,6 +110,41 @@ int show_obj()
             if(e.type == Event::Closed)
                 frame.close();
         }
+        if(Keyboard::isKeyPressed(Keyboard::Escape)) return 1;
+        frame.clear();
+        frame.draw(sprite);
+        frame.display();
+    }
+    frame.close();
+    return 0;
+}
+
+int Game_Over()
+{
+    RenderWindow frame(VideoMode(1100,720),"Andropple!");
+    frame.setFramerateLimit(10);
+    SoundBuffer buffer;
+    buffer.loadFromFile("res/over.wav");
+    Sound sound;
+    sound.setBuffer(buffer);
+    sound.setLoop(true);
+    Texture texture;
+    texture.loadFromFile("res/over.png");
+    Sprite sprite(texture);
+    sprite.setPosition(0,0);
+
+    int i=0;
+
+    while(frame.isOpen())
+    {
+        Event e;
+        while(frame.pollEvent(e))
+        {
+            if(e.type == Event::Closed)
+                frame.close();
+        }
+        i++;
+        if(i==1) sound.play();
         if(Keyboard::isKeyPressed(Keyboard::Escape)) return 1;
         frame.clear();
         frame.draw(sprite);
