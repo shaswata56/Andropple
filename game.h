@@ -11,7 +11,7 @@ struct pt
 
 struct score
 {
-    long long s;
+    int s;
 };
 
 
@@ -21,20 +21,20 @@ int play()
     srand(time(0));
 
     SoundBuffer buffer, brkbuff, ripbuff;
-    buffer.loadFromFile("res/crunch.ogg");
-    brkbuff.loadFromFile("res/break.wav");
-    ripbuff.loadFromFile("res/repair.wav");
+    buffer.loadFromFile("res/crunch.buf");
+    brkbuff.loadFromFile("res/break.buf");
+    ripbuff.loadFromFile("res/repair.buf");
     Sound sound, brk, repair;
     sound.setBuffer(buffer);
     brk.setBuffer(brkbuff);
     repair.setBuffer(ripbuff);
 
     Texture game, apple_red, new_game, android, top, tile;
-    game.loadFromFile("res/game_bg.png");
-    apple_red.loadFromFile("res/appler.png");
-    android.loadFromFile("res/android.png");
-    top.loadFromFile("res/game_top.png");
-    tile.loadFromFile("res/tile.gif");
+    game.loadFromFile("res/game_bg.imz");
+    apple_red.loadFromFile("res/appler.imz");
+    android.loadFromFile("res/android.imz");
+    top.loadFromFile("res/game_top.imz");
+    tile.loadFromFile("res/tile.imz");
 
     Sprite sGame(game), sAppler(apple_red), sAndroid(android), sTop(top), st1(tile),st2(tile),st3(tile),st4(tile),st5(tile),st6(tile),st7(tile),st8(tile),st9(tile),st10(tile),st11(tile);
 
@@ -43,11 +43,9 @@ int play()
     score scr;
     scr.s=0;
 
-
-
     Text text;
     Font font;
-    font.loadFromFile("res/tscope.ttf");
+    font.loadFromFile("res/tscope.fnt");
     text.setFont(font);
     text.setCharacterSize(50);
     text.setFillColor(Color::Black);
@@ -65,8 +63,6 @@ int play()
     st9.setPosition(800,620);
     st10.setPosition(900,620);
     st11.setPosition(1000,620);
-
-
 
     for(int i=0;i<5;i++)
     {
@@ -315,10 +311,7 @@ int play()
     app.draw(text);
     app.display();
 
-    if(life < 0)
-    {
-        return 1;
-    }
+    if(life < 0) return scr.s;
 
     }
     app.close();
