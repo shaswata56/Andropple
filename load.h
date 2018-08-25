@@ -150,6 +150,10 @@ int Game_Over(int x)
     int score_int=0;
     FILE *fp;
     fp = fopen("res/score.sv","r");
+    if(fp == NULL)
+    {
+        fp=fopen("res/score.sv","w");
+    }
     fscanf(fp,"%d",&score_int);
     fclose(fp);
 
@@ -224,8 +228,15 @@ int highscore()
     int a;
     FILE *fp;
     fp= fopen("res/score.sv","r");
-    fscanf(fp,"%d",&a);
-    fclose(fp);
+    if(fp == NULL)
+    {
+        fp=fopen("res/score.sv","w");
+        a=-1;
+    }
+    else{
+        fscanf(fp,"%d",&a);
+        fclose(fp);
+    }
     if(a>0)
     {
         line="YOUR HIGHSCORE IS ";
