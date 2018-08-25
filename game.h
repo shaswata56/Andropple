@@ -153,7 +153,25 @@ int play()
         if(x>1015 && Keyboard::isKeyPressed(Keyboard::Left)) x-=10;
     }
 
-    dy=2;
+    if(scr.s>=0)dy=2;
+    if(scr.s>10) dy=2.1;
+    if(scr.s>20) dy=2.2;
+    if(scr.s>30) dy=2.3;
+    if(scr.s>40) dy=2.4;
+    if(scr.s>50) dy=2.5;
+    if(scr.s>60) dy=2.6;
+    if(scr.s>70) dy=2.7;
+    if(scr.s>80) dy=2.8;
+    if(scr.s>90) dy=2.9;
+    if(scr.s>100) dy=3;
+    if(scr.s>110) dy=3.1;
+    if(scr.s>130) dy=3.2;
+    if(scr.s>150) dy=3.3;
+    if(scr.s>170) dy=3.4;
+    if(scr.s>190) dy=3.5;
+    if(scr.s>200) dy=3.6;
+    if(scr.s>250) dy=3.7;
+    if(scr.s>300) dy=3.8;
 
     for (int i=0;i<3;i++)
     {
